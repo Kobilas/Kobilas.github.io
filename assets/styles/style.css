@@ -1,8 +1,15 @@
+.telephoneLineUpper {
+  stroke: black;
+  stroke-width: 1;
+}
 .telephoneLine {
-    stroke: black;
-    stroke-width: 1;
-  }
-  .telephonePole {
-    stroke: black;
-    stroke-width: 5;
-  }
+  stroke: black;
+  stroke-width: 1;
+}
+.telephonePole {
+  stroke: black;
+  stroke-width: 5;
+}
+.motionPath {
+  stroke-width: 0;
+}
