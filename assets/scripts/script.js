@@ -19,18 +19,18 @@ function makePath(x, y) {
   return path;
 }
 
-/*
-function moveBird(birdId, pctMovement) {
-  var translateCoords = 
-  birdId.setAttribute("transform", "translate(" + )
-  if (pctMovement == 100) {
-    return;
+function moveBird() {
+  counter += 0.003;
+  var translateCoords = "translate(" + (path.getPointAtLength(counter * pathLength).x - 15) + "," + (path.getPointAtLength(counter * pathLength).y - 15) + ")";
+  bird.setAttribute("transform", translateCoords);
+  if (counter != 1) {
+    requestAnimationFrame(moveBird);
   }
-  requestAnimationFrame(moveBird, pctMovement + 1);
 }
-requestAnimationFrame(moveBird, 0);
-*/
 
 var ptOnLine = telephoneLines[getRandomInt(0,3)].getPointAtLength(getRandomInt(0,333));
 var path = makePath(ptOnLine.x, ptOnLine.y);
+var pathLength = path.getTotalLength();
 var counter = 0;
+var bird = document.getElementById("bird0");
+requestAnimationFrame(moveBird);
