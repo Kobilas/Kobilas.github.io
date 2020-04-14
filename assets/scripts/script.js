@@ -1,6 +1,3 @@
-svgCanvas = document.getElementById("canvas");
-telephoneLines = document.getElementsByClassName("telephoneLineUpper");
-
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -28,7 +25,11 @@ function moveBird() {
   }
 }
 
-var ptOnLine = telephoneLines[getRandomInt(0,3)].getPointAtLength(getRandomInt(0,333));
+var svgCanvas = document.getElementById("canvas");
+var telephoneLines = document.getElementsByClassName("telephoneLineUpper");
+var randIntOne = getRandomInt(0,3);
+var randIntTwo = getRandomInt(0,333);
+var ptOnLine = telephoneLines[randIntOne].getPointAtLength(randIntTwo);
 var path = makePath(ptOnLine.x, ptOnLine.y);
 var pathLength = path.getTotalLength();
 var counter = 0;
