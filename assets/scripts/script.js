@@ -16,13 +16,28 @@ function makePath(x, y) {
   return path;
 }
 
-function moveBird() {
+function moveBird(birdEl, pathEl) {
   counter += 0.003;
-  var translateCoords = "translate(" + (path.getPointAtLength(counter * pathLength).x - 15) + "," + (path.getPointAtLength(counter * pathLength).y - 15) + ")";
-  bird.setAttribute("transform", translateCoords);
+  var translateCoords = "translate(" + (pathEl.getPointAtLength(counter * pathLength).x + 15) + "," + (pathEl.getPointAtLength(counter * pathLength).y + 15) + ")";
+  birdEl.setAttribute("transform", translateCoords);
   if (counter != 1) {
-    requestAnimationFrame(moveBird);
+    requestAnimationFrame(function() {
+      moveBird(birdEl, pathEl);
+    });
+  } else {
+
   }
+}
+
+function makeBird() {
+  newBird = bird.cloneNode(true)
+  newBird.setAttribute("id", "bird"+birdNum++)
+  svgCanvas.appendChild(newBird)
+  return newBird
+}
+
+function birdSit(birdEl) {
+
 }
 
 var svgCanvas = document.getElementById("canvas");
@@ -33,5 +48,13 @@ var ptOnLine = telephoneLines[randIntOne].getPointAtLength(randIntTwo);
 var path = makePath(ptOnLine.x, ptOnLine.y);
 var pathLength = path.getTotalLength();
 var counter = 0;
+var birdNum = 1;
 var bird = document.getElementById("bird0");
-requestAnimationFrame(moveBird);
+moveBird(bird, path);
+var birds = []
+for(var i=0; i < 20; i++){
+  birds.push(makeBird());
+  var ptOnLine = telephoneLines[getRandomInt(0,3)].getPointAtLength(getRandomInt(0,333));
+  var path = makePath(ptOnLine.x, ptOnLine.y);
+  moveBird(birds[i], path);
+}
