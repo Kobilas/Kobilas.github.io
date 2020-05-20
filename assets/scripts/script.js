@@ -16,16 +16,19 @@ function makePath(x, y) {
   return path;
 }
 
-function moveBird(birdEl, pathEl) {
-  counter += 0.003;
-  var translateCoords = "translate(" + (pathEl.getPointAtLength(counter * pathLength).x + 15) + "," + (pathEl.getPointAtLength(counter * pathLength).y + 15) + ")";
+function moveBird(birdEl, pathEl, moveCounter) {
+  moveCounter += 0.003;
+  var pathLen = pathEl.getTotalLength()
+  var ptOnLine = pathEl.getPointAtLength(moveCounter * pathLen)
+  var translateCoords = "translate(" + (ptOnLine.x + 15)
+    + "," + (ptOnLine.y + 15) + ")";
   birdEl.setAttribute("transform", translateCoords);
-  if (counter != 1) {
+  if (moveCounter != 1) {
     requestAnimationFrame(function() {
-      moveBird(birdEl, pathEl);
+      moveBird(birdEl, pathEl, moveCounter);
     });
   } else {
-
+    //birdSit()
   }
 }
 
@@ -42,19 +45,16 @@ function birdSit(birdEl) {
 
 var svgCanvas = document.getElementById("canvas");
 var telephoneLines = document.getElementsByClassName("telephoneLineUpper");
-var randIntOne = getRandomInt(0,3);
-var randIntTwo = getRandomInt(0,333);
-var ptOnLine = telephoneLines[randIntOne].getPointAtLength(randIntTwo);
-var path = makePath(ptOnLine.x, ptOnLine.y);
-var pathLength = path.getTotalLength();
-var counter = 0;
-var birdNum = 1;
+var birdNum = 0;
+const BIRD_MAX = 20;
 var bird = document.getElementById("bird0");
-moveBird(bird, path);
-var birds = []
-for(var i=0; i < 20; i++){
-  birds.push(makeBird());
-  var ptOnLine = telephoneLines[getRandomInt(0,3)].getPointAtLength(getRandomInt(0,333));
-  var path = makePath(ptOnLine.x, ptOnLine.y);
-  moveBird(birds[i], path);
+// main bird must remain in same position so that subsequent birds also start
+// from that position
+//setTimeout(moveBird(bird, path), 2000);
+var birds_and_paths = []
+for(var i=0; i < BIRD_MAX; i++){
+  ptOnLine = telephoneLines[getRandomInt(0,3)].getPointAtLength(getRandomInt(0,333));
+  birds_and_paths.push([makeBird(), makePath(ptOnLine.x, ptOnLine.y)]);
+  setTimeout(moveBird, (5000+(i*5000)), birds_and_paths[i][0],
+    birds_and_paths[i][1], 0);
 }
